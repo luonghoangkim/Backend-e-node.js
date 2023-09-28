@@ -1,17 +1,19 @@
 const express = require("express");
 const dotenv = require('dotenv');
 const { default: mongoose } = require("mongoose");
+const routes = require('./routes')
+const bodyParser = require('body-parser')
 
 dotenv.config()
 
 const app = express()
 const port = process.env.PORT || 3001
 
-app.get("/", (req , res)=>{
-    return res.send('Hello Lương')
-}) 
+app.use(bodyParser.json())
 
-mongoose.connect(`mongodb+srv://luongit:${process.env.MONGO_DB}@be-nodejs.uagn6md.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp`)
+routes(app);
+
+mongoose.connect(`${process.env.MONGO_DB}`)
 .then(() => {
     console.log('Connect Db success!')
 })
